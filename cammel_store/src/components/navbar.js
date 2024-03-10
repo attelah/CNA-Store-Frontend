@@ -100,6 +100,7 @@ const Navbar = () => {
                                         </form>
                                     </div>
                                 )}
+                                 <Link to="/register" className="navbar-links">| Register</Link>
                             </div>
                         )}
                     </li>

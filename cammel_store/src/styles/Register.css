@@ -1,0 +1,51 @@
+/* Register.css */
+
+.register-form {
+  position: absolute;
+  top: 40%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  background: white;
+  padding: 15px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  width: 300px;
+  margin: auto;
+}
+
+.registration-success {
+  position: absolute;
+  top: 40%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  background: white;
+  padding: 15px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  width: 300px;
+  margin: auto;
+}
+
+.register-form input {
+  width: 93%; 
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.register-form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.register-form button:hover {
+  background-color: #0056b3;
+}

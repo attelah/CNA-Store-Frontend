@@ -9,7 +9,7 @@ import Checkout from './components/Checkout';
 import Navbar from './components/navbar';
 import Footer from './components/footer';
 import Cart from './components/cart';
-import Login from './components/Login';
+import Register from './components/Register';
 
 function App() {
   return (
@@ -20,7 +20,7 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<Store />} />
-            <Route path="/Login" element={<Login />} />
+            <Route path="/Register" element={<Register />} />
             <Route path="/store" element={<Store />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/cart" element={<Cart />} />
