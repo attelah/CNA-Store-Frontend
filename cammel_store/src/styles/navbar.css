@@ -74,6 +74,7 @@
   list-style: none;
   text-align: center;
   margin: auto; /* Reset margin */
+  
 }
 
 
@@ -83,6 +84,7 @@
   align-items: center;
   text-decoration: none;
   padding: 0.5rem 1rem;
+  
 }
 
 .register-links {
@@ -104,6 +106,7 @@
   align-items: center;
   text-decoration: none;
   padding: 0.5rem 1rem;
+  
 }
 
 #camelLogo{
@@ -128,6 +131,7 @@
 
   /** LOGIN DROPDOWN **/
   .login-dropdown {
+    
     position: absolute;
     top: 100%; 
     right: 0; 
@@ -137,6 +141,11 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     z-index: 1000; 
     width: 300px; 
+    
+}
+
+.error-message {
+  color: red;
 }
 
 .login-dropdown input {
@@ -145,6 +154,10 @@
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
+}
+
+.login-text{
+  cursor: pointer;
 }
 
 .login-dropdown button {
@@ -262,4 +275,23 @@
 
 .item-quantity {
   margin: 0 5px; /* Adjust based on your design */
+}
+
+
+.cart-item-count {
+  position: absolute;
+ 
+  left: -0,999px; /* Less negative to move it rightwards */
+  transform: translate(-100%, -80%); /* Adjust translation to reposition the badge */
+  background-color: red;
+  color: white;
+  font-size: 14px;
+  line-height: 14px;
+  min-width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
 }

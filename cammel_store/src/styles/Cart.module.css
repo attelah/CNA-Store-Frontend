@@ -104,4 +104,13 @@
     /* Existing styles */
     margin-left: 20px; /* Adjust as needed for spacing between quantity and remove button */
   }
+  .cart-item-count {
+    background-color: red;
+    color: white;
+    font-size: 0.75rem;
+    padding: 2px 6px;
+    border-radius: 50%;
+    margin-left: 4px;
+    vertical-align: super;
+  }
   

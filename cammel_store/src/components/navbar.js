@@ -19,7 +19,8 @@ const Navbar = () => {
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [message] = useState('');
+    const [message, setMessage] = useState('');
+    const [attemptsRemaining, setAttemptsRemaining] = useState(6);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -61,7 +62,8 @@ const Navbar = () => {
         })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error(message);
+                    setAttemptsRemaining(prevAttempts => prevAttempts - 1);
+                    throw new Error(response.statusText);
                 }
                 return response.json();
             })
@@ -72,7 +74,7 @@ const Navbar = () => {
                 navigate('/store');
             })
             .catch(error => {
-                console.error('Login error:', error);
+                setMessage('Wrong username or password');
             });
     };
 
@@ -80,6 +82,10 @@ const Navbar = () => {
         clearTimeout(hideDropdownTimeoutRef.current);
         setShowCartDropdown(true);
     };
+    const totalItemsInCart = () => {
+        return cartItems.reduce((total, item) => total + item.quantity, 0);
+      };
+      
     const calculateTotalCost = () => {
         return cartItems.reduce((total, item) => total + item.price, 0).toFixed(2);
       };
@@ -120,6 +126,7 @@ const Navbar = () => {
                                             <input type="text" id="username" name="username" required value={username} onChange={e => setUsername(e.target.value)} />
                                             <label htmlFor="password">Password:</label>
                                             <input type="password" id="password" name="password" required value={password} onChange={e => setPassword(e.target.value)} />
+                                            {message && <p className="error-message">{message} Attempts remaining: {attemptsRemaining}</p>}
                                             <button type="submit">Login</button>
                                         </form>
                                         <Link to="/register" className="register">Register</Link>
@@ -129,9 +136,16 @@ const Navbar = () => {
                         )}
                     </li>
                     <li className="navbar-item" onMouseEnter={showDropdown} onMouseLeave={hideDropdown}>
-    <Link to="/cart" className="navbar-links">
-        <FontAwesomeIcon icon={faShoppingCart} className="icon-spacing" /> | Cart
-    </Link>
+                    <Link to="/cart" className="navbar-links" style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
+  {totalItemsInCart() > 0 && (
+    <span className="cart-item-count">{totalItemsInCart()}</span>
+  )}
+  <FontAwesomeIcon icon={faShoppingCart} className="icon-spacing" />
+  | Cart
+</Link>
+
+
+
     {showCartDropdown && (
         <div className="cart-dropdown">
             {cartItems.length > 0 ? (
@@ -143,18 +157,18 @@ const Navbar = () => {
                                 <span className="item-quantity">{item.quantity}</span>
                                 <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
                             </div>
-                            <span>{item.name} - ${item.price.toFixed(2)}</span>
+                            <span>{item.name} | {item.price.toFixed(2)}€</span>
                         </div>
                     ))}
                     <div className="cart-total">
-                        Total: ${calculateTotalCost()}
+                        Total: {calculateTotalCost()}€
                     </div>
                 </>
             ) : (
                 <span>Your cart is empty.</span>
             )}
             <div className={`cart-dropdown-actions ${cartItems.length > 0 ? 'no-top-border' : ''}`}>
-                <button className="checkout-button" onClick={() => navigate('/checkout')}>Proceed to Checkout →</button>
+                <button className="checkout-button" onClick={() => navigate('/cart')}>Proceed to Checkout →</button>
         </div>
                             </div>
                         )}

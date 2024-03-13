@@ -30,7 +30,7 @@ const Cart = () => {
       if (!response.ok) {
         throw new Error(`Failed to delete product from cart. Status: ${response.status}`);
       }
-      console.log("Product removed from cart successfully");
+    
       setCartItems(currentItems => currentItems.filter(item => item.id !== productId));
     } catch (error) {
       console.error('Error removing product from cart:', error);
@@ -38,7 +38,7 @@ const Cart = () => {
   };
 
   const handleUpdateQuantityAndPrice = async (productId, change) => {
-    // Find the product in the cart to get its current state
+   
     const productToUpdate = cartItems.find(item => item.id === productId);
     if (!productToUpdate) {
       console.error("Product not found in cart:", productId);
@@ -78,9 +78,9 @@ const Cart = () => {
           item.id === productId ? { ...item, quantity: newQuantity, price: newPrice } : item
         )
       );
-      console.log("Cart item updated successfully:", productId, "New quantity:", newQuantity, "New price:", newPrice);
+      
     } catch (error) {
-      console.error("Error updating cart item:", productId, error);
+      console.error("Error updating cart item:");
     }
   };
   
@@ -96,7 +96,7 @@ const Cart = () => {
                 <span>{item.quantity}</span>
                 <button onClick={() => handleUpdateQuantityAndPrice(item.id, +1)} className={styles.quantityButton}>+</button>
               </div>
-              <span className={styles.productDetails}>{item.name} - ${item.price}</span>
+              <span className={styles.productDetails}>{item.name} | ${item.price}</span>
               <button onClick={() => handleRemoveFromCart(item.id)} className={styles.removeButton}>Remove</button>
             </li>
           ))}
