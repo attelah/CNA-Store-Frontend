@@ -1,6 +1,6 @@
 .navbar {
   background: orange;
-  height: 60px;
+  height: 68px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,7 +17,7 @@
   justify-content: space-between;
   align-items: center; /* Align items vertically */
   width: 100%;
-  max-width: 1200px; /* Adjust max-width for better spacing */
+  /*max-width: 1200px;  Adjust max-width for better spacing */
   padding: 0 20px; /* Add padding on the sides */
   position: relative;
 }
@@ -29,6 +29,17 @@
   font-size: 2rem;
   display: flex;
   align-items: center; /* Ensure logo is vertically centered */
+  margin: auto;
+}
+
+@font-face {
+  font-family: Aceh-Light;
+  src: url("../camelFonts/Aceh-Light.ttf");
+}
+
+#camelStoreLogoText{
+  font-family: "Aceh-light",Verdana, Geneva, Tahoma, sans-serif;
+  
 }
 
 .search-bar {
@@ -37,12 +48,15 @@
   justify-content: center;
   margin: 0 20px;
   position: relative; /* Enables absolute positioning of the search icon inside */
+  max-width: 800px;
 }
 .search-bar input[type="text"] {
   padding: 0.5rem;
   width: 100%; /* Make input take up all available width */
   /* Add padding-right to prevent text from being hidden behind the icon */
   padding-right: 40px; /* Adjust based on the size of your search icon */
+  border-radius: 8px;
+  border-width: 1px;
 }
 
 .search-bar button {
@@ -59,7 +73,7 @@
   display: flex;
   list-style: none;
   text-align: center;
-  margin: 0; /* Reset margin */
+  margin: auto; /* Reset margin */
 }
 
 
@@ -69,6 +83,12 @@
   align-items: center;
   text-decoration: none;
   padding: 0.5rem 1rem;
+}
+
+.register-links {
+  color: #007BFF;
+  display: flex;
+  text-decoration: none;
 }
 
 .icon-spacing {
@@ -84,6 +104,17 @@
   align-items: center;
   text-decoration: none;
   padding: 0.5rem 1rem;
+}
+
+#camelLogo{
+  width: 77px;
+  height:62px;
+  padding-right: 5px;
+}
+
+#camelText{
+  width: 220px;
+  height:60px;
 }
 
 

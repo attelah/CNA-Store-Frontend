@@ -6,6 +6,8 @@ import '../styles/navbar.css';
 import { useAuth } from './CheckAuth';
 import { useSearch } from './SearchContext';
 import { useNavigate } from 'react-router-dom';
+import camelLogo from '../camelImages/camellogo-transformed-removebg-preview.png'
+//import camelText from '../camelImages/cooltext453914258362390.png'
 
 const Navbar = () => {
     const { user, logout, login } = useAuth();
@@ -14,6 +16,7 @@ const Navbar = () => {
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [message] = useState('');
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -52,7 +55,7 @@ const Navbar = () => {
         })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Login failed. Please check your username and password.');
+                    throw new Error(message);
                 }
                 return response.json();
             })
@@ -71,7 +74,8 @@ const Navbar = () => {
         <nav className="navbar">
             <div className="navbar-container">
                 <Link to="/" className="navbar-logo">
-                    Camel Store
+                <img src={camelLogo} id="camelLogo" alt="Camel Logo" />
+                  <h3 id="camelStoreLogoText">Camel Store</h3>  
                 </Link>
                 <div className="search-bar">
                 <input type="text" placeholder="Search..." onChange={(e) => setSearchTerm(e.target.value)} />
@@ -93,11 +97,12 @@ const Navbar = () => {
                                     <div className="login-dropdown" onClick={handleDropdownClick}>
                                         <form onSubmit={handleSubmit}>
                                             <label htmlFor="username">Username:</label>
-                                            <input type="text" id="username" name="username" required onChange={e => setUsername(e.target.value)} />
+                                            <input type="text" id="username" name="username" required value={username} onChange={e => setUsername(e.target.value)} />
                                             <label htmlFor="password">Password:</label>
-                                            <input type="password" id="password" name="password" required onChange={e => setPassword(e.target.value)} />
+                                            <input type="password" id="password" name="password" required value={password} onChange={e => setPassword(e.target.value)} />
                                             <button type="submit">Login</button>
                                         </form>
+                                        <Link to="/register" className="register">Register</Link>
                                     </div>
                                 )}
                                  <Link to="/register" className="navbar-links">| Register</Link>

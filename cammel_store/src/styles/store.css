@@ -1,3 +1,7 @@
+html * {
+  font-family: Helvetica, Arial, sans-serif;
+}
+
 .full-page {
     display: flex;
     flex-direction: column;
@@ -14,11 +18,18 @@
     flex-direction: column;
 }
 
+@font-face {
+  font-family: Aceh-Light;
+  src: url("../camelFonts/Aceh-Light.ttf");
+}
+
 #banner-text {
     font-size: 200px;
+    letter-spacing: -15px;
     margin: auto;
     margin-bottom: 0;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: bold;
+    font-family: "Aceh-light",Verdana, Geneva, Tahoma, sans-serif;
     color: #ecc65b;
 }
 
@@ -26,7 +37,7 @@
     font-size: 30px;
     margin: auto;
     margin-top: 0;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-family: "Aceh-light",Verdana, Geneva, Tahoma, sans-serif;
     color: #ecc65b;
 }
 
@@ -45,6 +56,7 @@
 
 #sort-select {
     padding: 5px;
+    border-radius: 5px;
 }
 
 .card-box {
@@ -57,8 +69,10 @@
 }
 
 .camel-card {
+    display: flex;
+    flex-direction: column;
     border-radius: 4px;
-    padding: 20px;
+    padding-bottom: 0;
     flex: 0 1 22%;
     box-sizing: border-box;
     display: flex;
@@ -67,10 +81,19 @@
     margin: 10px;
 }
 
+.camel-info {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    height: 100%;
+}
+
 .camel-card img {
-    width: 250px;
-    height: 200px;
+    width: 100%;
+    height: 250px;
     align-self: center;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
 }
 
 .camel-card:hover {
@@ -82,13 +105,95 @@
 .price {
     display: flex;
     flex-direction: row;
+    margin-top: auto;
 }
 
 #cartButton {
     width: 20%;
     height: 40%;
     margin: auto;
+    margin-right: 0;
 }
+
+
+/* ----- Modal styles ----- */
+.modal {
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  .modal-content {
+    display: flex;
+    flex-direction: row;
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 60%; /* Could be more or less, depending on screen size */
+    border-radius: 5px;
+  }
+
+  .modal img {
+    width: 700px;
+    height: 500px;
+    border-radius: 5px;
+  }
+
+  .modal-text {
+    display: flex;
+    flex-direction: column;
+    padding-left: 20px;
+    width: 100%;
+  }
+
+  .modal-text h2 {
+    font-size: 40px;
+  }
+
+  .modal-price {
+    margin-top: auto;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .modal-price h3 {
+    font-size: 30px;
+  }
+
+  .modalStock {
+    margin-top: auto;
+    font-size: 30px;
+    color: red;
+  }
+
+  #modalCartButton {
+    margin: auto;
+    margin-right: 0;
+    padding: 10px;
+    width: 140px;
+    font-weight: bold;
+}
+  
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
 
 .store-h2, .store-p{
     margin-left: 10px;

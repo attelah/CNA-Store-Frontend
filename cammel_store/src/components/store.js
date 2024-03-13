@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useCart } from './CartContext';
-import { useSearch } from './SearchContext'; // Make sure this path matches where you've placed your SearchContext
+import { useSearch } from './SearchContext';
 import '../styles/store.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
@@ -9,7 +9,10 @@ const Store = () => {
   const { addToCart } = useCart();
   const { searchTerm } = useSearch();
   const [camels, setCamels] = useState([]);
+  
+  
 
+  // Fetch data from the product API
   useEffect(() => {
     fetch(`${process.env.REACT_APP_PRODUCT_API}/products`)
       .then((res) => {
@@ -26,6 +29,8 @@ const Store = () => {
       });
   }, []);
 
+
+  // Load images from local folder
   const loadImage = async (productId) => {
     try {
       const { default: camelImageSrc } = await import(`../camelImages/${productId}.jpg`);
@@ -36,56 +41,125 @@ const Store = () => {
     }
   };
 
-  const CamelComponent = ({ camel }) => {
-    let productName = camel.name;
-    if (productName.length > 16) productName = productName.substring(0, 16);
 
+  const CamelComponent = ({ camel }) => {
+    const [modalOpen, setModalOpen] = useState(false);
     const [imageSrc, setImageSrc] = useState('');
 
     useEffect(() => {
       loadImage(camel.product_id).then(setImageSrc);
     }, [camel.product_id]);
 
-    const handleAddToCart = () => {
-      const itemToAdd = {
-        id: camel.id,
-        name: productName,
-        price: camel.price,
-        quantity: 1
-      };
-      addToCart(itemToAdd);
+    const handleAddToCartEnhanced = () => {
+      const token = localStorage.getItem('jwt');
+      fetch(`${process.env.REACT_APP_CART_SERVICE_URL}/cart`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`, // Include the authorization token
+        },
+        body: JSON.stringify({
+          product: camel.id, // Use the unique identifier for the product
+          quantity: 1,
+          price: camel.price,
+        }),
+      })
+      .then(response => {
+        if (response.status === 201) {
+          return response.json(); // Parse the JSON response body
+        } else {
+          throw new Error('Product not added to cart');
+        }
+      })
+      .then(data => {
+          addToCart({ ...camel, quantity: 1 }); // Update the local cart context with the camel and a quantity of 1
+          console.log("Product added to cart:", data); // Log the data from the response
+      })
+      .catch(error => console.error('Error:', error));
     };
 
+    const openModal = () => setModalOpen(true);
+    const closeModal = () => setModalOpen(false);
+
+    // Close modal if clicked outside of it
+    useEffect(() => {
+      function clickOutside(event) {
+          if (modalOpen) {
+              const modal = document.querySelector('.modal-content');
+
+              // Check if the click occurred outside the dropdown
+              if (modal && !modal.contains(event.target)) {
+                  setModalOpen(false);
+              }
+          }
+      }
+
+      // Add click event listener to the document
+      document.addEventListener('click', clickOutside);
+
+      // Cleanup function
+      return () => document.removeEventListener('click', clickOutside);
+    }, [modalOpen]);
+
+
     return (
-      <div className="camel-card">
-        <img src={imageSrc} alt={camel.name} />
-        <h2>{productName}</h2>
-        <p>{camel.description}</p>
-        {camel.quantity > 0 ? (
-          <div className='price'>
-            <h3>Price: {camel.price}€</h3>
-            <button onClick={handleAddToCart} id='cartButton'><FontAwesomeIcon icon={faShoppingCart}/></button>
+      <>
+        <div className="camel-card" onClick={openModal}>
+          <div>
+            <img src={imageSrc} alt={camel.name} />
           </div>
-        ) : (
-          <h3 className='stock'>Out of stock!</h3>
+          <div className='camel-info'>
+            <h2>{camel.name}</h2>
+            <p>{camel.description}</p>
+            {camel.quantity > 0 ? (
+              <div className='price'>
+                <h3>Price: {camel.price}€</h3>
+                <button onClick={(event) => { event.stopPropagation(); handleAddToCartEnhanced(); }} id='cartButton'><FontAwesomeIcon icon={faShoppingCart}/></button>
+              </div>
+            ) : (
+              <h3 className='stock'>Sold out!</h3>
+            )}
+          </div>
+        </div>
+
+        {modalOpen && (
+          <div className="modal">
+            <div className="modal-content">
+              <div>
+                <img src={imageSrc} alt={camel.name} className="modal-product-image" />
+              </div>
+
+              <div className='modal-text'>
+                <h2>{camel.name}</h2>
+                <p>{camel.description}</p>
+                {camel.quantity > 0 ? (
+                  <div className='modal-price'>
+                    <h3>Price: {camel.price}€</h3>
+                    <button onClick={handleAddToCartEnhanced} id='modalCartButton'><FontAwesomeIcon icon={faShoppingCart}/> Add to Cart</button>
+                  </div>
+                ) : (
+                  <h3 className='modalStock'>Sold out!</h3>
+                )}
+              </div>
+
+              <span className="close" onClick={closeModal}>&times;</span>
+            </div>
+          </div>
         )}
-      </div>
+      </>
     );
   };
-
+  
   const handleSort = (criteria) => {
     const sortedCamels = [...camels].sort((a, b) => {
       if (criteria === 'price-up') {
         return a.price - b.price;
-      } 
-      if (criteria === 'price-down') {
+      } else if (criteria === 'price-down') {
         return b.price - a.price;
-      }
-      if (criteria === 'name') {
+      } else if (criteria === 'name') {
         return a.name.localeCompare(b.name);
-      } else {
-        return 0;
       }
+      return 0;
     });
     setCamels(sortedCamels);
   };
@@ -96,7 +170,7 @@ const Store = () => {
     <div className='full-page'>
       <div className='banner'>
         <h1 id='banner-text'>Modern Camels</h1>
-        <h2 id='selling-text'>Selling the wolds finest camels!</h2>
+        <h2 id='selling-text'>Selling the worlds finest camels!</h2>
       </div>
       
       <div className='products-container'>
@@ -107,7 +181,7 @@ const Store = () => {
             <option value="name">Alphabetical</option>
           </select>
         </div>
-
+  
         <div className='card-box'>
           {filteredCamels.map((camel, index) => (
             <CamelComponent key={index} camel={camel} />

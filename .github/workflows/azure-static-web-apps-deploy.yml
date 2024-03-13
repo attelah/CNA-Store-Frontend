@@ -22,6 +22,8 @@ jobs:
         env:
           REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
           REACT_APP_PRODUCT_API: ${{ secrets.REACT_APP_PRODUCT_API }}
+          REACT_APP_ORDER_SERVICE_URL: ${{ secrets.REACT_APP_ORDER_SERVICE_URL }}
+          REACT_APP_CART_SERVICE_URL: ${{ secrets.REACT_APP_CART_SERVICE_URL }}
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}

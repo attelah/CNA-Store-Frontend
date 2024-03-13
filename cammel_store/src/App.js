@@ -9,7 +9,7 @@ import Checkout from './components/Checkout';
 import Navbar from './components/navbar';
 import Footer from './components/footer';
 import Cart from './components/cart';
-import Register from './components/Register';
+import Register from './components/register';
 
 function App() {
   return (
