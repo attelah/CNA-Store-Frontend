@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/changePass.css';
 
-const token = process.env.REACT_APP_API_TOKEN;
-
 function ChangePassword() {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
@@ -24,25 +22,24 @@ function ChangePassword() {
         }
 
         // Clear any previous validation errors
-        setValidationError('');
+        setValidationError('')
+
+        const token = localStorage.getItem('jwt');
 
         // Make an API call to validate the old password and change the password
-        fetch(`${process.env.REACT_APP_API_URL}/changePass`, {
-            method: 'POST',
+        fetch(`${process.env.REACT_APP_API_URL}/:id`, {
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`
             },
             body: JSON.stringify({
-                currentPassword,
-                newPassword
+                password: newPassword
             })
         })
         .then(response => {
             if (!response.ok) {
                 if (response.status === 400) {
-                    throw new Error('Old password does not match.');
-                } else {
                     throw new Error('Failed to change password.');
                 }
             }
@@ -62,17 +59,6 @@ function ChangePassword() {
         <div className="change-password-container">
             {!changeSuccess && (
                 <form className="change-password-form" onSubmit={handleSubmit}>
-                    <label htmlFor="currentPassword" className="change-password-label">Current Password: </label>
-                    <input
-                        type="password"
-                        id="currentPassword"
-                        name="currentPassword"
-                        required
-                        value={currentPassword}
-                        onChange={e => setCurrentPassword(e.target.value)}
-                        className="change-password-input"
-                    />
-                    <br />
                     <label htmlFor="newPassword" className="change-password-label">New Password: </label>
                     <input
                         type="password"
