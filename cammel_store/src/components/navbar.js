@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShoppingCart, faSearch, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faShoppingCart, faSearch, faUser, faCog } from '@fortawesome/free-solid-svg-icons';
 import '../styles/navbar.css';
 import { useAuth } from './CheckAuth';
 import { useSearch } from './SearchContext';
@@ -105,13 +105,17 @@ const Navbar = () => {
                                         <Link to="/register" className="register">Register</Link>
                                     </div>
                                 )}
-                                 <Link to="/register" className="navbar-links">| Register</Link>
                             </div>
                         )}
                     </li>
                     <li className="navbar-item">
                         <Link to="/cart" className="navbar-links">
                             <FontAwesomeIcon icon={faShoppingCart} className="icon-spacing" /> | Cart
+                        </Link>
+                    </li>
+                    <li className="navbar-item">
+                        <Link to="/changePass" className="navbar-links">
+                            <FontAwesomeIcon icon={faCog} className="icon-spacing" />
                         </Link>
                     </li>
                 </ul>
