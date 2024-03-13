@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../styles/changePass.css';
 
 function ChangePassword() {
-    const [newPassword, setNewPassword] = useState('');
+    const [password, setpassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
     const [validationError, setValidationError] = useState('');
     const [changeSuccess, setChangeSuccess] = useState(false);
@@ -10,12 +10,12 @@ function ChangePassword() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (newPassword.length < 8) {
+        if (password.length < 8) {
             setValidationError('New password must be at least 8 characters long.');
             return;
         }
 
-        if (newPassword !== confirmNewPassword) {
+        if (password !== confirmNewPassword) {
             setValidationError('New password and confirm password do not match.');
             return;
         }
@@ -24,16 +24,20 @@ function ChangePassword() {
         setValidationError('')
 
         const token = localStorage.getItem('jwt');
+        const base64Url = token.split(".")[1];
+        const base64 = base64Url.replace("-", "+").replace("_", "/");
+        const parsedToken = JSON.parse(window.atob(base64));
+        console.log(parsedToken.id)
 
         // Make an API call to validate the old password and change the password
-        fetch(`${process.env.REACT_APP_API_URL}/user/:id`, {
+        fetch(`${process.env.REACT_APP_API_URL}/user/${parsedToken.id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`
             },
             body: JSON.stringify({
-                password: newPassword
+                password
             })
         })
         .then(response => {
@@ -58,14 +62,14 @@ function ChangePassword() {
         <div className="change-password-container">
             {!changeSuccess && (
                 <form className="change-password-form" onSubmit={handleSubmit}>
-                    <label htmlFor="newPassword" className="change-password-label">New Password: </label>
+                    <label htmlFor="password" className="change-password-label">New Password: </label>
                     <input
                         type="password"
-                        id="newPassword"
-                        name="newPassword"
+                        id="password"
+                        name="password"
                         required
-                        value={newPassword}
-                        onChange={e => setNewPassword(e.target.value)}
+                        value={password}
+                        onChange={e => setpassword(e.target.value)}
                         className="change-password-input"
                     />
                     <br />
