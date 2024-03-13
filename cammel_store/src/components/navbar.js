@@ -159,11 +159,17 @@ const Navbar = () => {
                             </div>
                         )}
                     </li>
-                    <li className="navbar-item">
+                    
+                    {user && (
+                        <>
+                        <li className="navbar-item">
                         <Link to="/changePass" className="navbar-links">
-                            <FontAwesomeIcon icon={faCog} className="icon-spacing" />
+                        <FontAwesomeIcon icon={faCog} className="icon-spacing" />
                         </Link>
                     </li>
+                        </>
+                    )}
+
                 </ul>
             </div>
         </nav>
