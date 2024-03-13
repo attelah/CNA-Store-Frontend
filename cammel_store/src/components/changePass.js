@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import '../styles/changePass.css';
 
 function ChangePassword() {
-    const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
     const [validationError, setValidationError] = useState('');
@@ -27,7 +26,7 @@ function ChangePassword() {
         const token = localStorage.getItem('jwt');
 
         // Make an API call to validate the old password and change the password
-        fetch(`${process.env.REACT_APP_API_URL}/:id`, {
+        fetch(`${process.env.REACT_APP_API_URL}/user/:id`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
