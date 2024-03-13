@@ -9,8 +9,8 @@ const Store = () => {
   const { addToCart } = useCart();
   const { searchTerm } = useSearch();
   const [camels, setCamels] = useState([]);
-  
-  
+  //const token = process.env.REACT_APP_API_TOKEN;
+  const token = localStorage.getItem('jwt');
 
   // Fetch data from the product API
   useEffect(() => {
@@ -51,7 +51,6 @@ const Store = () => {
     }, [camel.product_id]);
 
     const handleAddToCartEnhanced = () => {
-      const token = localStorage.getItem('jwt');
       fetch(`${process.env.REACT_APP_CART_SERVICE_URL}/cart`, {
         method: 'POST',
         headers: {

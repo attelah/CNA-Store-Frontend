@@ -56,4 +56,29 @@
   }
   
  
+  .cartItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .quantityContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+  }
+  
+  .quantityButton {
+    /* Style your quantity buttons (e.g., padding, margin, etc.) */
+    margin: 0 10px;
+  }
+  .quantity {
+    /* Optional: If you want to specifically control the space around the quantity */
+    margin: 0 5px; /* Adjust the spacing around the quantity text */
+  }
+  .removeButton {
+    /* Style your remove button */
+    margin-left: auto; /* This pushes the remove button to the right */
+  }
   

@@ -1,44 +1,50 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart, faSearch, faUser, faCog } from '@fortawesome/free-solid-svg-icons';
 import '../styles/navbar.css';
 import { useAuth } from './CheckAuth';
 import { useSearch } from './SearchContext';
-import { useNavigate } from 'react-router-dom';
+import { useCart } from './CartContext'; // Ensure you import useCart from your CartContext
 import camelLogo from '../camelImages/camellogo-transformed-removebg-preview.png'
 //import camelText from '../camelImages/cooltext453914258362390.png'
 
 const Navbar = () => {
     const { user, logout, login } = useAuth();
     const { setSearchTerm } = useSearch();
+    const { cartItems, updateQuantity } = useCart();
     const [isLoginFormVisible, setIsLoginFormVisible] = useState(false);
+    const [showCartDropdown, setShowCartDropdown] = useState(false);
+    const hideDropdownTimeoutRef = useRef(null);
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message] = useState('');
 
     useEffect(() => {
-        function handleClickOutside(event) {
+        const handleClickOutside = (event) => {
             if (isLoginFormVisible) {
                 const dropdown = document.querySelector('.login-dropdown');
-    
-                // Check if the click occurred outside the dropdown
                 if (dropdown && !dropdown.contains(event.target)) {
                     setIsLoginFormVisible(false);
                 }
             }
-        }
-    
-        // Add click event listener to the document
+        };
+
         document.addEventListener('click', handleClickOutside);
-    
-        // Cleanup function
+
         return () => document.removeEventListener('click', handleClickOutside);
     }, [isLoginFormVisible]);
 
+    useEffect(() => {
+        return () => {
+            if (hideDropdownTimeoutRef.current) {
+                clearTimeout(hideDropdownTimeoutRef.current);
+            }
+        };
+    }, []);
+
     const handleDropdownClick = (event) => {
-        // Prevent the event from bubbling up to the document
         event.stopPropagation();
     };
 
@@ -70,6 +76,20 @@ const Navbar = () => {
             });
     };
 
+    const showDropdown = () => {
+        clearTimeout(hideDropdownTimeoutRef.current);
+        setShowCartDropdown(true);
+    };
+    const calculateTotalCost = () => {
+        return cartItems.reduce((total, item) => total + item.price, 0).toFixed(2);
+      };
+
+    const hideDropdown = () => {
+        hideDropdownTimeoutRef.current = setTimeout(() => {
+            setShowCartDropdown(false);
+        }, 5000); // Adjust this delay as needed
+    };
+
     return (
         <nav className="navbar">
             <div className="navbar-container">
@@ -78,7 +98,7 @@ const Navbar = () => {
                   <h3 id="camelStoreLogoText">Camel Store</h3>  
                 </Link>
                 <div className="search-bar">
-                <input type="text" placeholder="Search..." onChange={(e) => setSearchTerm(e.target.value)} />
+                    <input type="text" placeholder="Search..." onChange={(e) => setSearchTerm(e.target.value)} />
                     <button type="submit"><FontAwesomeIcon icon={faSearch} /></button>
                 </div>
                 <ul className="navbar-menu">
@@ -108,10 +128,36 @@ const Navbar = () => {
                             </div>
                         )}
                     </li>
-                    <li className="navbar-item">
-                        <Link to="/cart" className="navbar-links">
-                            <FontAwesomeIcon icon={faShoppingCart} className="icon-spacing" /> | Cart
-                        </Link>
+                    <li className="navbar-item" onMouseEnter={showDropdown} onMouseLeave={hideDropdown}>
+    <Link to="/cart" className="navbar-links">
+        <FontAwesomeIcon icon={faShoppingCart} className="icon-spacing" /> | Cart
+    </Link>
+    {showCartDropdown && (
+        <div className="cart-dropdown">
+            {cartItems.length > 0 ? (
+                <>
+                    {cartItems.map((item) => (
+                        <div key={item.id} className="cart-item-dropdown">
+                            <div className="cart-item-controls">
+                                <button onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}>-</button>
+                                <span className="item-quantity">{item.quantity}</span>
+                                <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
+                            </div>
+                            <span>{item.name} - ${item.price.toFixed(2)}</span>
+                        </div>
+                    ))}
+                    <div className="cart-total">
+                        Total: ${calculateTotalCost()}
+                    </div>
+                </>
+            ) : (
+                <span>Your cart is empty.</span>
+            )}
+            <div className={`cart-dropdown-actions ${cartItems.length > 0 ? 'no-top-border' : ''}`}>
+                <button className="checkout-button" onClick={() => navigate('/checkout')}>Proceed to Checkout →</button>
+        </div>
+                            </div>
+                        )}
                     </li>
                     <li className="navbar-item">
                         <Link to="/changePass" className="navbar-links">

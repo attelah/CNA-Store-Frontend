@@ -6,6 +6,7 @@ import styles from '../styles/Cart.module.css';
 const Cart = () => {
   const navigate = useNavigate();
   const { cartItems, setCartItems } = useCart();
+  //const token = process.env.REACT_APP_API_TOKEN;
   const token = localStorage.getItem('jwt');
 
   const calculateTotalCost = () => {
@@ -90,13 +91,13 @@ const Cart = () => {
         <ul className={styles.cartList}>
           {cartItems.map(item => (
             <li key={item.id} className={styles.cartItem}>
-              {item.name} - ${item.price} x {item.quantity}
+              <div className={styles.quantityContainer}>
+                <button onClick={() => handleUpdateQuantityAndPrice(item.id, -1)} className={styles.quantityButton}>-</button>
+                <span>{item.quantity}</span>
+                <button onClick={() => handleUpdateQuantityAndPrice(item.id, +1)} className={styles.quantityButton}>+</button>
+              </div>
+              <span className={styles.productDetails}>{item.name} - ${item.price}</span>
               <button onClick={() => handleRemoveFromCart(item.id)} className={styles.removeButton}>Remove</button>
-             
-<button onClick={() => handleUpdateQuantityAndPrice(item.id, +1)} className={styles.quantityButton}>+</button>
-
-<button onClick={() => handleUpdateQuantityAndPrice(item.id, -1)} className={styles.quantityButton}>-</button>
-
             </li>
           ))}
         </ul>
@@ -107,6 +108,7 @@ const Cart = () => {
       <button onClick={handleProceedToCheckout} className={styles.checkoutButton}>Proceed to Checkout</button>
     </div>
   );
+  
 };
 
 export default Cart;

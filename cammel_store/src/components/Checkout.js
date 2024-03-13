@@ -5,7 +5,7 @@ import styles from '../styles/Checkout.module.css';
 const Checkout = () => {
   const { cartItems, clearCart } = useCart(); // Assuming there's a method to clear the cart
   const [address, setAddress] = useState(''); // State to store the address
- 
+  const token = localStorage.getItem('jwt');
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -18,8 +18,7 @@ const Checkout = () => {
       address: address, // Include the address in the order data
     };
 
-    const token = process.env.REACT_APP_API_TOKEN; // Use your actual token
-  //const token = localStorage.getItem('jwt');
+    //const token = process.env.REACT_APP_API_TOKEN; // Use your actual token
     try {
       const response = await fetch(process.env.REACT_APP_ORDER_SERVICE_URL, { 
         method: 'POST',
@@ -45,15 +44,27 @@ const Checkout = () => {
   };
  
   const calculateTotalCost = () => {
-    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
+    return cartItems.reduce((total, item) => total + item.price, 0).toFixed(2);
   };
 
   return (
     
     <div className={styles.checkoutContainer}>
+     
+   
+      <div className={styles.orderSummary}>
+        <h3 className={styles.summaryTitle}>Order Summary</h3>
+        {cartItems.map((item, index) => (
+          <div key={index}>
+             {item.quantity} x {item.name} | {item.price}€ 
+          </div>
+        ))}
+        <p>Total: ${calculateTotalCost()}</p>
+      </div>
       <h2 className={styles.checkoutTitle}>Checkout</h2>
+      <p> Name: </p>
+      <p> Email: </p>
       <form onSubmit={handleSubmit}>
-        {/* Include other form fields as needed */}
         <label htmlFor="address">Address:</label>
         <input
           type="text"
@@ -65,16 +76,6 @@ const Checkout = () => {
         />
         <button type="submit">Place Order</button>
       </form>
-   
-      <div className={styles.orderSummary}>
-        <h3 className={styles.summaryTitle}>Order Summary</h3>
-        {cartItems.map((item, index) => (
-          <div key={index}>
-            {item.name} - ${item.price} x {item.quantity}
-          </div>
-        ))}
-        <p>Total: ${calculateTotalCost()}</p>
-      </div>
     </div>
     
   );

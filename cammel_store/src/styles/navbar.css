@@ -168,3 +168,98 @@
   display: block; 
   text-align: left;
 }
+.navbar-container {
+  position: relative;
+}
+
+.navbar-item {
+  position: relative; /* Needed for absolute positioning of the dropdown */
+}
+
+.cart-dropdown {
+  display: none; /* Initially hidden */
+  position: absolute;
+  right: 0; /* Adjust based on your layout */
+  top: 100%; /* Positioned right below the cart icon/text */
+  width: 240px; /* Or any width according to your design */
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: adds depth */
+  border-radius: 4px; /* Optional: softens the corners */
+  z-index: 100; /* Ensures it's above other content */
+  padding: 10px 0; /* Adds some padding inside the dropdown */
+}
+
+/* You might already have similar styles for when the dropdown is shown */
+.navbar-item:hover .cart-dropdown,
+.cart-dropdown:hover { /* Keeps the dropdown open when hovering over it */
+  display: block;
+}
+
+.cart-item-dropdown {
+  padding: 10px; /* Provides spacing for each item in the dropdown */
+  border-bottom: 1px solid #ececec; /* Separates items visually */
+}
+
+.cart-item-controls button {
+  margin-left: 5px; /* Spacing between the quantity controls and item description */
+}
+
+
+.cart-item-controls button {
+  /* Your existing button styles */
+  margin: 0 2px; /* Ensures a little space around the buttons for clarity */
+}
+
+.item-quantity {
+  min-width:20px; /* Ensures space for the quantity */
+  text-align: center; /* Centers the quantity */
+  padding: 0; 
+}
+.cart-dropdown-actions {
+  display: flex;
+  justify-content: center; /* Centers the button horizontally */
+  padding: 10px;
+  border-top: 1px solid #eee; /* Optional: Adds a separator from the cart items */
+  margin-top: 10px; /* Optional: Adds some space above the button */
+}
+
+.checkout-button {
+  padding: 5px 10px;
+  background-color: #007bff; /* Example color, adjust as needed */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  /* Add text-align if the button text isn't centered */
+  text-align: center;
+}
+
+.checkout-button:hover {
+  background-color: #0056b3; /* Darker shade on hover, adjust as needed */
+}
+.cart-item-dropdown:last-child {
+  border-bottom: none; /* Removes the border from the last item */
+}
+.cart-dropdown-actions.no-top-border {
+  border-top: none; /* Removes the top border when there are cart items */
+}
+.cart-item-image {
+  width: 50px; /* Adjust as needed */
+  height: 50px; /* Adjust to maintain aspect ratio or as needed */
+  object-fit: cover; /* This helps keep images looking nice */
+  margin-right: 10px; /* Space between image and text */
+}
+.cart-item-dropdown {
+  display: flex;
+  align-items: center;
+}
+
+.cart-item-controls {
+  display: flex;
+  align-items: center;
+  margin-right: 10px; /* Adjust spacing between controls and product name as needed */
+}
+
+.item-quantity {
+  margin: 0 5px; /* Adjust based on your design */
+}

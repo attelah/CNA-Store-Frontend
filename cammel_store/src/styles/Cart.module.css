@@ -59,4 +59,49 @@
   }
   
   /* Add any additional utility classes or specific styles as needed */
+  .cartItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+  .quantityContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+  }
+  .productDetails {
+    flex-grow: 1;
+    margin-left: 20px; /* Adjust space between quantity and product details */
+  }
+  
+  .quantityButton {
+    /* Style your quantity buttons (e.g., padding, margin, etc.) */
+    margin: 0 10px;
+  }
+  .quantity {
+    /* Optional: If you want to specifically control the space around the quantity */
+    margin: 0 5px; /* Adjust the spacing around the quantity text */
+  }
+  .removeButton {
+    /* Style your remove button */
+    margin-left: auto; /* This pushes the remove button to the right */
+  }
+  .actionsContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Aligns items to the right */
+    flex-grow: 1; /* Ensures it takes up the remaining space to push it to the right */
+  }
+  
+  .quantityButton {
+    /* Existing styles */
+    margin-right: 10px; /* Adjust as needed for spacing */
+  }
+  
+  .removeButton {
+    /* Existing styles */
+    margin-left: 20px; /* Adjust as needed for spacing between quantity and remove button */
+  }
   
